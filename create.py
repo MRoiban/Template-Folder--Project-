@@ -7,7 +7,6 @@ Names: tmplty, project, mkprj, mkp
 
 import os
 import sys
-import subprocess
 
 
 
@@ -18,6 +17,7 @@ def makeFolder(newPath):
     Args:
         newPath (str): The path for the new folder
     """
+    
     if not os.path.exists(newPath):
         os.makedirs(newPath)
 
@@ -28,6 +28,7 @@ def makeFile(newPath):
     Args:
         newPath (str): The file path
     """
+    
     file = open(newPath, "x")
     file.close()
 
@@ -38,6 +39,7 @@ def cppFolders(project_name="./project"):
     Used as a template.
     
     """
+    
     makeFolder(project_name+"/Class")
     makeFolder(project_name+"/Docs")
     makeFolder(project_name+"/Other")
@@ -52,6 +54,7 @@ def pyFolders(project_name):
     Used as a template.
     
     """
+    
     makeFolder(project_name+"/Class")
     makeFolder(project_name+"/Docs")
     makeFolder(project_name+"/Other")
@@ -59,9 +62,23 @@ def pyFolders(project_name):
     makeFile(project_name+"/"+ project_name +".py") 
 
 
-def parser():
+def reactFolders(project_name):
     """
-    The parser will parse the command line argv into their appropriate functions and variables
+    The function is used to create the appropriate folder with all the files needed to work with react code to make an application.
+    Used as a template.
+    
+    """
+    makeFolder(project_name+"/src")
+    makeFolder(project_name+"/src/screens")
+    makeFolder(project_name+"/src/components")
+    makeFolder(project_name+"/src/utils")
+    makeFolder(project_name+"/src/assests")
+    
+    makeFile(project_name+"/App.tsx")   
+
+def project():
+    """
+    The parser will parse the command line argv into their appropriate functions and variables.
     
     Command line Args:
         -c : c++ 
@@ -69,21 +86,31 @@ def parser():
     """
     
     argv = sys.argv
-    size = len(argv)
+    size = len(argv) - 1
     
     if size <= 2:
         raise Exception("There are missing arguments that are needed for the command to work!")
     
-    project_name = argv[1]
-    
     if "-c" in argv:
+        project_name = argv[argv.index("-c") + 1]
         cppFolders(project_name)
+        
     elif "-p" in argv:
+        project_name = argv[argv.index("-p") + 1]
         pyFolders(project_name)
+        
+    elif "-react" in argv:
+        project_name = argv[argv.index("-react") + 1]
+        reactFolders(project_name)
+        
     else:
         raise Exception("The given arguments aren't reconized by the command!")
         
 
 
 def main():
-    parser()
+    argv = sys.argv
+    if "-project" in argv:
+        project()
+    else:
+        raise Exception("The given arguments aren't reconized by the command!")
