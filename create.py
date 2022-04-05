@@ -64,7 +64,7 @@ def pyFolders(project_name):
 
 def reactFolders(project_name):
     """
-    The function is used to create the appropriate folder with all the files needed to work with react code to make an application.
+    The function is used to create the appropriate folder with all the files needed to work with react code to make an application with React.
     Used as a template.
     
     """
@@ -76,6 +76,18 @@ def reactFolders(project_name):
     
     makeFile(project_name+"/App.tsx")   
 
+def gdFolders(project_name):
+    """
+    The function is used to create the appropriate folder with all the files needed to work with react code to make an application with Godot.
+    Used as a template.
+    
+    """
+    makeFolder(project_name+"/Model")
+    makeFolder(project_name+"/View")
+    makeFolder(project_name+"/Controller")
+    makeFolder(project_name+"/Other")
+    makeFolder(project_name+"/Assets")
+
 def project():
     """
     The parser will parse the command line argv into their appropriate functions and variables.
@@ -83,6 +95,8 @@ def project():
     Command line Args:
         -c : c++ 
         -p : py
+        -r : react
+        -gd : godot
     """
     
     argv = sys.argv
@@ -99,9 +113,13 @@ def project():
         project_name = argv[argv.index("-p") + 1]
         pyFolders(project_name)
         
-    elif "-react" in argv:
-        project_name = argv[argv.index("-react") + 1]
+    elif "-r" in argv:
+        project_name = argv[argv.index("-r") + 1]
         reactFolders(project_name)
+    
+    elif ("-gd" in argv):
+        project_name = argv[argv.index("-gd") + 1]
+        gdFolders(project_name)
         
     else:
         raise Exception("The given arguments aren't reconized by the command!")
